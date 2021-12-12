@@ -1,0 +1,31 @@
+' Module to remove all hidden names on active workbook
+   Sub Remove_Hidden_Names()
+
+       ' Dimension variables.
+       Dim xName As Variant
+       Dim Result As Variant
+       Dim Vis As Variant
+
+       ' Loop once for each name in the workbook.
+       For Each xName In ActiveWorkbook.Names
+
+           'If a name is not visible (it is hidden)...
+           If xName.Visible = True Then
+               Vis = "Visible"
+           Else
+               Vis = "Hidden"
+           End If
+
+           ' ...ask whether or not to delete the name.
+           Result = MsgBox(prompt:="Delete " & Vis & " Name " & _
+               Chr(10) & xName.Name & "?" & Chr(10) & _
+               "Which refers to: " & Chr(10) & xName.RefersTo, _
+               Buttons:=vbYesNo)
+
+           ' If the result is true, then delete the name.
+           If Result = vbYes Then xName.Delete
+
+           ' Loop to the next name.
+       Next xName
+
+   End Sub
